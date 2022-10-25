@@ -1,3 +1,17 @@
+/* Copyright 2022 Google LLC
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License. */
+
 #include <Keyboard.h>
 #include <SPI.h>
 
@@ -29,9 +43,12 @@ the SSID position based on a 0 index.
 */
 int wifipos = 0;
 
-/*
-The setup function runs once when you press the reset button on the Arduino or power-on the Arduino
-*/
+/** 
+ * The setup function runs once when you press the reset button on the 
+ * Arduino or power-on the Arduino
+ *
+ * @return {void}
+ */
 
 void setup() {
   Keyboard.begin();  //begin the keyboard.
@@ -39,7 +56,13 @@ void setup() {
   start();           //Run the Chromecast setup
 }
 
-
+/**
+* The start function runs each step of the setup process with waits for UI
+* renderign between. Timing can be adjusted here. Going too fast will 
+* result in setup failures and a requirement to factory reset or complete 
+* manually.
+* @return {void}
+*/
 void start() {
   selectLanguage();  //selects the language at the languagepos index assigned above
   wait(1);           //waiting 1 second to allow UI to render
@@ -60,16 +83,17 @@ void start() {
   noRemoteSetup();   //Select No Remote setup for audio controls. Audio controls can be setup in room later.
 }
 
-/*
-No loop required for this functionality. 
-Advanced users can assign a pin to a button 
-for use in triggering the start function.
+/**
+* No loop required for this functionality. 
+* Advanced users can assign a pin to a button 
+* for use in triggering the start function.
 */
 void loop() {
 }
 
-/*
-Select the Language
+/**
+* Select the Language
+* @return {void}
 */
 void selectLanguage() {
   if (languagepos > 0) {
@@ -81,9 +105,11 @@ void selectLanguage() {
   Keyboard.write(KEY_RETURN);
 }
 
-/*
-Skip the Google Home setup as it does not allow the setup for Cast Moderator.
-Select Setup on TV
+/**
+* Skip the Google Home setup as it does not allow the setup 
+* for Cast Moderator.
+* Select Setup on TV
+* @return {void}
 */
 void setupOnTv() {
   wait(1);
@@ -93,8 +119,9 @@ void setupOnTv() {
   wait(5);
 }
 
-/*
-Set the WiFi credentials
+/**
+* Set the WiFi credentials
+* @return {void}
 */
 void wifi() {
   if (wifipos > 0) {
@@ -109,8 +136,9 @@ void wifi() {
   Keyboard.write(KEY_RETURN);
 }
 
-/*
-Execute the konami code to get access to Cast Moderator
+/**
+* Execute the konami code to get access to Cast Moderator
+* @return {void}
 */
 void konami() {
   Keyboard.write(KEY_ESC);  //Closes the keyboard
@@ -122,8 +150,9 @@ void konami() {
   }
 }
 
-/*
-Agree to Cast Moderator seelctions and reminders
+/**
+* Agree to Cast Moderator seelctions and reminders
+* @return {void}
 */
 void optIn() {
   wait(1);
@@ -138,8 +167,9 @@ void optIn() {
   Keyboard.write(KEY_RETURN);  //Cast Moderator is set up
 }
 
-/*
-Enter the Google Account credentials 
+/**
+* Enter the Google Account credentials 
+* @return {void}
 */
 void googleAccount() {
   Keyboard.print(account_name);
@@ -149,8 +179,9 @@ void googleAccount() {
   Keyboard.write(KEY_RETURN);
 }
 
-/*
-Accept Terms of Service and Additional Legal 
+/**
+* Accept Terms of Service and Additional Legal 
+* @return {void}
 */
 void legalAccepts() {
   Keyboard.write(KEY_RETURN);  //Accept TOS
@@ -158,16 +189,18 @@ void legalAccepts() {
   Keyboard.write(KEY_RETURN);  //Accept Additional Legal Terms
 }
 
-/*
-Deselect or accept Google Services.
+/**
+* Deselect or accept Google Services.
+* @return {void}
 */
 void googleServices() {
   wait(2);
   Keyboard.write(KEY_RETURN);
 }
 
-/*
-Skip the the Audio setup with the remote. This can be completed later. 
+/**
+* Skip the the Audio setup with the remote. This can be completed later. 
+* @return {void}
 */
 void noRemoteSetup() {
   Keyboard.write(KEY_RIGHT_ARROW);
@@ -177,8 +210,10 @@ void noRemoteSetup() {
   Keyboard.write(KEY_RETURN);
 }
 
-/*
-Wait in integer seconds
+/**
+* Wait in integer seconds
+* @param {integer}
+* @return {void}
 */
 void wait(int seconds = 1);
 void wait(int seconds) {
@@ -187,8 +222,9 @@ void wait(int seconds) {
   }
 }
 
-/*
-Back key signal
+/**
+* Back key signal
+* @return {void}
 */
 void back() {
   Keyboard.press(KEY_LEFT_GUI);
@@ -198,8 +234,9 @@ void back() {
   Keyboard.releaseAll();
 }
 
-/*
-LED Blink
+/**
+* LED Blink
+* @return {void}
 */
 void blink() {
   digitalWrite(LED_BUILTIN, HIGH);  // turn the LED on
