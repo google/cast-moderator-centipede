@@ -16,7 +16,7 @@
  
  
 /*
-https://youtu.be/6VjhmbJWDeI
+https://youtu.be/mqOyv3sQdOw
 Pairing the remote is a first step. When bulk setting up a single
 remote can be used and the packaged remotes paired later in the
 classroom using the Chromecast button long press to pair.
@@ -139,7 +139,7 @@ void wifi() {
  Keyboard.write(KEY_RETURN);
  wait(1);
  if(security_type>0){
-   for (int i = 0; i < security_type; i++) {
+   for (int i = 0; i <= security_type; i++) {
      Keyboard.write(KEY_DOWN_ARROW);
      wait(1);
    }
