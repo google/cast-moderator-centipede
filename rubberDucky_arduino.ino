@@ -13,6 +13,7 @@
 * limitations under the License. */
  
 #include <Keyboard.h>
+#include <EEPROM.h> //Library used to write to certain boards to remember the setup
  
  
 /*
@@ -27,7 +28,8 @@ The Arduino code below can be run at this point.
  
 #define wifi_name "" // Define SSID for your wireless connection.
 #define wifi_pass "" // Define the password for your wireless connection.
-#define account_name "" // Define Google Workspace account used to connect for casting.
+#define account_name "" // Define Google Workspace username without numerical suffix.
+#define domain "" //Define the domain name to be combined with the username and suffix.
 #define account_pass "" // Define Google Workspace account password used to connect for casting.
 
 /*
@@ -47,6 +49,33 @@ int security_type = 0; //0 for none, 1 for WEP, 2 for WPA/WPA2-Personal
 int wifipos = 20;  //20 down clicks. Click and enter manually
 
 /**
+* Address 0-255 to write the count of use.
+*/
+int address = 0;
+
+/**
+* Value of the count used to calculate the suffix
+*/
+int value = 0;
+
+/**
+* The integer to start the suffix from.
+*/
+int startSuffix = 0;
+
+/**
+* The integer to end account setup with. 
+*/
+int endSuffix = -1;
+
+/**
+* Suffix of the Google account to be used with Cast Moderator
+* Suffix increments by 1 for every 50 runs on the device.
+*/
+int suffix = 0; //Do not change.
+
+
+/**
 * The setup function runs once when you press the reset button on the
 * Arduino or power-on the Arduino
 *
@@ -56,6 +85,10 @@ int wifipos = 20;  //20 down clicks. Click and enter manually
 void setup() {
  Keyboard.begin();  //begin the keyboard.
  wait(10);          //Provide a buffer to cancel by removing the arduino
+ setSuffix();        //Set the suffice for the Google Account
+ if(suffix>=endSuffix){
+  return; //Cancel setup due to account suffix surpassing the end limit. 
+ }
  start();           //Run the Chromecast setup
 }
  
@@ -93,6 +126,16 @@ void start() {
 * for use in triggering the start function.
 */
 void loop() {
+}
+
+/**
+* Set the suffix number for the Google account.
+* @return {void}
+*/
+void setSuffix(){
+  value = EEPROM.read(address);
+  EEPROM.write(address, value+1);
+  suffix=floor(value/50)+startSuffix;
 }
  
 /**
@@ -187,6 +230,9 @@ void optIn() {
 */
 void googleAccount() {
  Keyboard.print(account_name);
+ Keyboard.print(suffix);
+ Keyboard.print('@');
+ Keyboard.print(domain);
  Keyboard.write(KEY_RETURN);
  wait(5);
  Keyboard.print(account_pass);
@@ -258,4 +304,13 @@ void blink() {
  digitalWrite(LED_BUILTIN, LOW);   // turn the LED off
  delay(500);                       // wait for half a second
 }
+/**
+* Clears the board momory
+* @return {void}
+*/
 
+void clear_memory(){
+  for (int i = 0 ; i < EEPROM.length() ; i++) {
+    EEPROM.write(i, 0);
+  }
+}
