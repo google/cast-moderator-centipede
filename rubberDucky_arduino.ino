@@ -83,6 +83,7 @@ int suffix = 0; //Do not change.
 */
  
 void setup() {
+ //clear_memory(); //uncomment and comment out the below lines to clear the memory.
  Keyboard.begin();  //begin the keyboard.
  wait(10);          //Provide a buffer to cancel by removing the arduino
  setSuffix();        //Set the suffice for the Google Account
