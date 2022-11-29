@@ -30,7 +30,7 @@ The Arduino is then powered or executed and walks through the setup flow.
 1. Clone this repo to your local device. 
 2. Edit in an Arduino IDE to enter your WiFi SSID, Password, Google Workspace Username, and Password.          
    - Optionally adjust timings where needed to accommodate network speed and potential downloads. 
-   - Cast Moderator accounts should have an integer at the end incrementing by 1 for each new account. e.g. cast0@doamin.com, cast1@domain.com.
+   - Cast Moderator accounts should have an integer at the end incrementing by 1 for each new account. e.g. cast0@domain.com, cast1@domain.com.
    - The suffix integer is implemented using the Arduino memory EEPROM to maintain the count of devices setup. Google accounts can be used on 50 devices at a time. 
    - Add a beginning and end suffix when setting up in parallel. 
    - The full account at login is created from the username, suffix and domain name. 
