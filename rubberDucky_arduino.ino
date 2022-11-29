@@ -87,7 +87,7 @@ void setup() {
  Keyboard.begin();  //begin the keyboard.
  wait(10);          //Provide a buffer to cancel by removing the arduino
  setSuffix();        //Set the suffice for the Google Account
- if(suffix>=endSuffix){
+ if(endSuffix>-1 && suffix>=endSuffix){
   return; //Cancel setup due to account suffix surpassing the end limit. 
  }
  start();           //Run the Chromecast setup
