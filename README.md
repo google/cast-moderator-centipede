@@ -13,13 +13,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 # Cast Moderator Centipede
-Cast Moderator Centipede is an Arduino script used to setup Cast Moderator 
-in bulk. The script is compiled and uploaded to a keyboard enabled micro controller. 
+Cast Moderator Centipede is an Arduino script used to setup Cast Moderator
+in bulk. The script is compiled and uploaded to a keyboard enabled micro controller.
 The Arduino is then powered or executed and walks through the setup flow.
 [Setup Example Video](https://youtu.be/mqOyv3sQdOw)
 
 ## Materials
-- Google Chromecast 
+- Google Chromecast
 - Arduino with HID Keyboard functionality
   - [Arduino Micro](https://store-usa.arduino.cc/products/arduino-micro) for example
 - USB splitter with USB-C Data and Power ports
@@ -27,19 +27,16 @@ The Arduino is then powered or executed and walks through the setup flow.
 
 
 ## Steps
-1. Clone this repo to your local device. 
-2. Edit in an Arduino IDE to enter your WiFi SSID, Password, Google Workspace Username, and Password.          
-   - Optionally adjust timings where needed to accommodate network speed and potential downloads. 
-   - Cast Moderator accounts should have an integer at the end incrementing by 1 for each new account. e.g. cast0@domain.com, cast1@domain.com.
-   - The suffix integer is implemented using the Arduino memory EEPROM to maintain the count of devices setup. Google accounts can be used on 90 devices at a time. 
-   - Add a beginning and end suffix when setting up in parallel. 
-   - The full account at login is created from the username, suffix and domain name. 
-   - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed. 
+1. Clone this repo to your local device.
+2. Edit in an Arduino IDE to enter your WifFi SSID, Password, Google Workspace Username, and Password.
+   - Optionally adjust timings where needed to accommodate network speed and potential downloads.
+   - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed.
+   - Google accounts can only be used on up to 50 devices.
    - When using a non-Google SSO it's best to place the cast accounts in an org unit set to [Google as the SSO](https://cloud.google.com/blog/products/identity-security/google-now-supports-multi-idp-sso-in-google-workspace-and-google-cloud).
 3. Compile and upload to the arduino.
-4. Connect the tail of your USB-c splitter to the Chromecast. 
-5. Connect the Chromecast to the HDMI. 
-6. Connect the Power to the USB and let it boot. 
-7. When prompted pair the remote. 
+4. Connect the tail of your USB-c splitter to the Chromecast.
+5. Connect the Chromecast to the HDMI.
+6. Connect the Power to the USB and let it boot.
+7. When prompted pair the remote.
 8. Once paired plug in or reset the Arduino. Code will begin the click after the set delay; 10 seconds.
-9. Once asked to explore the Chromecast it can be disconnected and installed in a Classroom. When booted it will load Cast Moderator immediately. 
+9. Once asked to explore thr Chromecast it can be disconnected and installed in a Classroom. When booted it will load Cast Moderator immediately.
