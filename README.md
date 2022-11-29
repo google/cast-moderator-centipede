@@ -16,6 +16,7 @@ limitations under the License.
 Cast Moderator Centipede is an Arduino script used to setup Cast Moderator 
 in bulk. The script is compiled and uploaded to a keyboard enabled micro controller. 
 The Arduino is then powered or executed and walks through the setup flow.
+[Setup Example Video](https://youtu.be/mqOyv3sQdOw)
 
 ## Materials
 - Google Chromecast 
