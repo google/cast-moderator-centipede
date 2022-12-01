@@ -70,7 +70,7 @@ int endSuffix = -1;
 
 /**
 * Suffix of the Google account to be used with Cast Moderator
-* Suffix increments by 1 for every 50 runs on the device.
+* Suffix increments by 1 for every 90 runs on the device.
 */
 int suffix = 0; //Do not change.
 
@@ -136,7 +136,7 @@ void loop() {
 void setSuffix(){
   value = EEPROM.read(address);
   EEPROM.write(address, value+1);
-  suffix=floor(value/50)+startSuffix;
+  suffix=floor(value/90)+startSuffix;
 }
  
 /**
