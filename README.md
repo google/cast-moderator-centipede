@@ -31,7 +31,7 @@ The Arduino is then powered or executed and walks through the setup flow.
 2. Edit in an Arduino IDE to enter your WifFi SSID, Password, Google Workspace Username, and Password.          
    - Optionally adjust timings where needed to accommodate network speed and potential downloads.
    - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed. 
-   - Google accounts can only be used on up to 50 devices.
+   - Google accounts can only be used on up to 90 devices.
    - When using a non-Google SSO it's best to place the cast accounts in an org unit set to [Google as the SSO](https://cloud.google.com/blog/products/identity-security/google-now-supports-multi-idp-sso-in-google-workspace-and-google-cloud).
 3. Compile and upload to the arduino.
 4. Connect the tail of your USB-c splitter to the Chromecast. 
