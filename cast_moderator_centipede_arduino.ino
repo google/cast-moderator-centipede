@@ -11,21 +11,21 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License. */
- 
+
 #include <Keyboard.h>
 #include <EEPROM.h> //Library used to write to certain boards to remember the setup
- 
- 
+
+
 /*
 https://youtu.be/mqOyv3sQdOw
 Pairing the remote is a first step. When bulk setting up a single
 remote can be used and the packaged remotes paired later in the
 classroom using the Chromecast button long press to pair.
- 
+
 After pairing the language select screen will appear.
 The Arduino code below can be run at this point.
 */
- 
+
 #define wifi_name "" // Define SSID for your wireless connection.
 #define wifi_pass "" // Define the password for your wireless connection.
 #define account_name "" // Define Google Workspace username without numerical suffix.
@@ -36,43 +36,53 @@ The Arduino code below can be run at this point.
 If the language of setup is not English select the
 position of the language on a 0 index
 */
-int languagepos = 0;
+int languagepos = 0; //Default: 0
 
 /**
 * Sets the position of the Security selection for the network
 */
 int security_type = 0; //0 for none, 1 for WEP, 2 for WPA/WPA2-Personal
- 
+
 /**
 * Navigates to the Manual entry of network.
 */
 int wifipos = 20;  //20 down clicks. Click and enter manually
 
 /**
-* Address 0-255 to write the count of use.
+* Amount of time in seconds to wait for the update
 */
-int address = 0;
+int updatewait = 900; //Default: 900
+
+/**
+* Number of runs before changing the account.
+*/
+int countrun = 90; //Default: 90
 
 /**
 * Value of the count used to calculate the suffix
 */
-int value = 0;
+int value = 0; //Default: 0
 
 /**
 * The integer to start the suffix from.
 */
-int startSuffix = 0;
+int startSuffix = 0; //Default: 0
 
 /**
-* The integer to end account setup with. 
+* The integer to end account setup with.
 */
-int endSuffix = -1;
+int endSuffix = -1; //Default: -1
 
 /**
 * Suffix of the Google account to be used with Cast Moderator
 * Suffix increments by 1 for every 90 runs on the device.
 */
-int suffix = 0; //Do not change.
+int suffix = 0; //Default: 0
+
+/**
+* EEPROM Memory Address 0-255 to write the count integer of use.
+*/
+int address = 0; //Default: 0
 
 
 /**
@@ -81,18 +91,18 @@ int suffix = 0; //Do not change.
 *
 * @return {void}
 */
- 
+
 void setup() {
  //clear_memory(); //uncomment and comment out the below lines to clear the memory.
  Keyboard.begin();  //begin the keyboard.
  wait(10);          //Provide a buffer to cancel by removing the arduino
  setSuffix();        //Set the suffice for the Google Account
  if(endSuffix>-1 && suffix>=endSuffix){
-  return; //Cancel setup due to account suffix surpassing the end limit. 
+  return; //Cancel setup due to account suffix surpassing the end limit.
  }
  start();           //Run the Chromecast setup
 }
- 
+
 /**
 * The start function runs each step of the setup process with waits for UI
 * rendering between. Timing can be adjusted here. Going too fast will
@@ -107,7 +117,7 @@ void start() {
  wait(1);           //waiting 1 second to allow UI to render
  wifi();            //Select WiFi and enter credentials
  wait(60);          //Connecting. If your network is potentially slower increase this wait to accommodate
- wait(900);          //Wait for the Update. May need to be adjusted for slower networks.
+ wait(updatewait);          //Wait for the Update. May need to be adjusted for slower networks.
  konami();          //Enters the unique setup code
  wait(3);           //waiting 3 second to allow UI to render
  optIn();           //selects the OptIn dialogs. Please ensure manual review before proceeding.
@@ -120,7 +130,7 @@ void start() {
  wait(5);           //waiting 1 second to allow UI to render
  noRemoteSetup();   //Select No Remote setup for audio controls. Audio controls can be setup in room later.
 }
- 
+
 /**
 * No loop required for this functionality.
 * Advanced users can assign a pin to a button
@@ -136,9 +146,9 @@ void loop() {
 void setSuffix(){
   value = EEPROM.read(address);
   EEPROM.write(address, value+1);
-  suffix=floor(value/90)+startSuffix;
+  suffix=floor(value/countrun)+startSuffix;
 }
- 
+
 /**
 * Select the Language
 * @return {void}
@@ -152,7 +162,7 @@ void selectLanguage() {
  }
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Skip the Google Home setup as it does not allow the setup
 * for Cast Moderator.
@@ -166,7 +176,7 @@ void setupOnTv() {
  Keyboard.write(KEY_RETURN);
  wait(5);
 }
- 
+
 /**
 * Set the WiFi credentials
 * @return {void}
@@ -193,7 +203,7 @@ void wifi() {
  Keyboard.print(wifi_pass);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Execute the konami code to get access to Cast Moderator
 * @return {void}
@@ -207,7 +217,7 @@ void konami() {
    Keyboard.write(KEY_UP_ARROW);
  }
 }
- 
+
 /**
 * Agree to Cast Moderator selections and reminders
 * @return {void}
@@ -224,7 +234,7 @@ void optIn() {
  wait(1);
  Keyboard.write(KEY_RETURN);  //Cast Moderator is set up
 }
- 
+
 /**
 * Enter the Google Account credentials
 * @return {void}
@@ -239,7 +249,7 @@ void googleAccount() {
  Keyboard.print(account_pass);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Accept Terms of Service and Additional Legal
 * @return {void}
@@ -249,7 +259,7 @@ void legalAccepts() {
  wait(3);
  Keyboard.write(KEY_RETURN);  //Accept Additional Legal Terms
 }
- 
+
 /**
 * Deselect or accept Google Services.
 * @return {void}
@@ -258,7 +268,7 @@ void googleServices() {
  wait(2);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Skip the the Audio setup with the remote. This can be completed later.
 * @return {void}
@@ -270,7 +280,7 @@ void noRemoteSetup() {
  wait(1);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Wait in integer seconds
 * @param {integer}
@@ -282,7 +292,7 @@ void wait(int seconds) {
    blink();
  }
 }
- 
+
 /**
 * Back key signal
 * @return {void}
@@ -294,7 +304,7 @@ void back() {
  wait(1);
  Keyboard.releaseAll();
 }
- 
+
 /**
 * LED Blink
 * @return {void}
