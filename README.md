@@ -17,6 +17,7 @@ Cast Moderator Centipede is an Arduino script used to setup Cast Moderator
 in bulk. The script is compiled and uploaded to a keyboard enabled micro controller.
 The Arduino is then powered or executed and walks through the setup flow.
 [Setup Example Video](https://youtu.be/mqOyv3sQdOw)
+The [eeprom branch](https://github.com/google/cast-moderator-centipede/tree/eeprom) can be used to setup multiple Cast Moderators and automatically change accounts. It requires using an Arduino with EEPROM memory.
 
 ## Materials
 - Google Chromecast
@@ -31,10 +32,14 @@ The Arduino is then powered or executed and walks through the setup flow.
 2. Edit in an Arduino IDE to enter your WifFi SSID, Password, Google Workspace Username, and Password.
    - Optionally adjust timings where needed to accommodate network speed and potential downloads.
 <<<<<<< HEAD
+<<<<<<< HEAD
    - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed.
    - Google accounts can only be used on up to 50 devices.
 =======
    - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed. 
+=======
+   - When creating accounts on the domain use the same password. Secure accounts by turning off services such as gmail and drive which are not needed.
+>>>>>>> edfd37d (Update of variables and link to eeprom branch)
    - Google accounts can only be used on up to 90 devices.
 >>>>>>> 2eda1ea (Updated Readme)
    - When using a non-Google SSO it's best to place the cast accounts in an org unit set to [Google as the SSO](https://cloud.google.com/blog/products/identity-security/google-now-supports-multi-idp-sso-in-google-workspace-and-google-cloud).
