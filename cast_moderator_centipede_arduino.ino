@@ -170,7 +170,7 @@ void selectLanguage() {
 * @return {void}
 */
 void setupOnTv() {
- wait(1);
+ wait(2);
  Keyboard.write(KEY_DOWN_ARROW);
  wait(1);
  Keyboard.write(KEY_RETURN);
@@ -227,6 +227,8 @@ void optIn() {
  Keyboard.write(KEY_RETURN);  //Using Cast Moderator
  wait(3);
  Keyboard.write(KEY_RETURN);  //Organization Access
+ wait(1);
+ Keyboard.write(KEY_UP_ARROW);
  wait(1);
  Keyboard.write(KEY_RETURN);  //Setup
  wait(1);
