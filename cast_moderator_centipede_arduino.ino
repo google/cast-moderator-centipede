@@ -11,20 +11,20 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License. */
- 
+
 #include <Keyboard.h>
- 
- 
+
+
 /*
 https://youtu.be/mqOyv3sQdOw
 Pairing the remote is a first step. When bulk setting up a single
 remote can be used and the packaged remotes paired later in the
 classroom using the Chromecast button long press to pair.
- 
+
 After pairing the language select screen will appear.
 The Arduino code below can be run at this point.
 */
- 
+
 #define wifi_name "" // Define SSID for your wireless connection.
 #define wifi_pass "" // Define the password for your wireless connection.
 #define account_name "" // Define Google Workspace account used to connect for casting.
@@ -34,17 +34,22 @@ The Arduino code below can be run at this point.
 If the language of setup is not English select the
 position of the language on a 0 index
 */
-int languagepos = 0;
+int languagepos = 0; //Default: 0
 
 /**
 * Sets the position of the Security selection for the network
 */
 int security_type = 0; //0 for none, 1 for WEP, 2 for WPA/WPA2-Personal
- 
+
 /**
 * Navigates to the Manual entry of network.
 */
 int wifipos = 20;  //20 down clicks. Click and enter manually
+
+/**
+* Amount of time in seconds to wait for the update
+*/
+int updatewait = 900; //Default: 900
 
 /**
 * The setup function runs once when you press the reset button on the
@@ -52,13 +57,13 @@ int wifipos = 20;  //20 down clicks. Click and enter manually
 *
 * @return {void}
 */
- 
+
 void setup() {
  Keyboard.begin();  //begin the keyboard.
  wait(10);          //Provide a buffer to cancel by removing the arduino
  start();           //Run the Chromecast setup
 }
- 
+
 /**
 * The start function runs each step of the setup process with waits for UI
 * rendering between. Timing can be adjusted here. Going too fast will
@@ -73,7 +78,7 @@ void start() {
  wait(1);           //waiting 1 second to allow UI to render
  wifi();            //Select WiFi and enter credentials
  wait(60);          //Connecting. If your network is potentially slower increase this wait to accommodate
- wait(900);          //Wait for the Update. May need to be adjusted for slower networks.
+ wait(updatewait);          //Wait for the Update. May need to be adjusted for slower networks.
  konami();          //Enters the unique setup code
  wait(3);           //waiting 3 second to allow UI to render
  optIn();           //selects the OptIn dialogs. Please ensure manual review before proceeding.
@@ -86,7 +91,7 @@ void start() {
  wait(5);           //waiting 1 second to allow UI to render
  noRemoteSetup();   //Select No Remote setup for audio controls. Audio controls can be setup in room later.
 }
- 
+
 /**
 * No loop required for this functionality.
 * Advanced users can assign a pin to a button
@@ -94,7 +99,7 @@ void start() {
 */
 void loop() {
 }
- 
+
 /**
 * Select the Language
 * @return {void}
@@ -108,7 +113,7 @@ void selectLanguage() {
  }
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Skip the Google Home setup as it does not allow the setup
 * for Cast Moderator.
@@ -122,7 +127,7 @@ void setupOnTv() {
  Keyboard.write(KEY_RETURN);
  wait(5);
 }
- 
+
 /**
 * Set the WiFi credentials
 * @return {void}
@@ -149,7 +154,7 @@ void wifi() {
  Keyboard.print(wifi_pass);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Execute the konami code to get access to Cast Moderator
 * @return {void}
@@ -163,7 +168,7 @@ void konami() {
    Keyboard.write(KEY_UP_ARROW);
  }
 }
- 
+
 /**
 * Agree to Cast Moderator selections and reminders
 * @return {void}
@@ -180,7 +185,7 @@ void optIn() {
  wait(1);
  Keyboard.write(KEY_RETURN);  //Cast Moderator is set up
 }
- 
+
 /**
 * Enter the Google Account credentials
 * @return {void}
@@ -192,7 +197,7 @@ void googleAccount() {
  Keyboard.print(account_pass);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Accept Terms of Service and Additional Legal
 * @return {void}
@@ -202,7 +207,7 @@ void legalAccepts() {
  wait(3);
  Keyboard.write(KEY_RETURN);  //Accept Additional Legal Terms
 }
- 
+
 /**
 * Deselect or accept Google Services.
 * @return {void}
@@ -211,7 +216,7 @@ void googleServices() {
  wait(2);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Skip the the Audio setup with the remote. This can be completed later.
 * @return {void}
@@ -223,7 +228,7 @@ void noRemoteSetup() {
  wait(1);
  Keyboard.write(KEY_RETURN);
 }
- 
+
 /**
 * Wait in integer seconds
 * @param {integer}
@@ -235,7 +240,7 @@ void wait(int seconds) {
    blink();
  }
 }
- 
+
 /**
 * Back key signal
 * @return {void}
@@ -247,7 +252,7 @@ void back() {
  wait(1);
  Keyboard.releaseAll();
 }
- 
+
 /**
 * LED Blink
 * @return {void}
